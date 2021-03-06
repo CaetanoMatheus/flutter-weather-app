@@ -20,5 +20,7 @@ class Location extends LocationEntity {
   Map<String, dynamic> toJson() => _$LocationToJson(this);
 
   @override
-  Weather? get weather => (super.weather as Weather);
+  Weather? get weather {
+    return super.weather != null ? (super.weather as Weather) : null;
+  }
 }

@@ -7,7 +7,7 @@ import 'package:flutter_weather_app/external/apis/contracts/i_weather_api.dart';
 
 class WeatherApi implements IWeatherApi {
   final IApi _api;
-  final _baseUrl = 'api.weatherapi.com/v1';
+  final _baseUrl = 'api.weatherapi.com';
 
   WeatherApi(this._api);
 
@@ -17,7 +17,7 @@ class WeatherApi implements IWeatherApi {
   ]) async {
     final response = await this._api.httpsGet(
           this._baseUrl,
-          '/forecast.json',
+          '/v1/forecast.json',
           this._getQueryParameters(filters),
         );
 

@@ -9,7 +9,29 @@ class WeatherDataSource implements IWeatherDataSource {
 
   @override
   Future<Weather?> getWeatherByCityName(String city) async {
-    final data = await this._api.getWeather();
-    return data != null ? Weather.fromJson(data) : null;
+    final data = await this._api.getWeather({'q': city});
+    final weatherData = _handleWeatherFields(data);
+    return weatherData != null ? Weather.fromJson(weatherData) : null;
+  }
+
+  Map<String, dynamic>? _handleWeatherFields(Map<String, dynamic>? map) {
+    if (map == null || map['current'] == null || map['location'] == null)
+      return null;
+
+    final weather = map['current'];
+    final location = map['location'];
+
+    return {
+      'temperature': weather['temp_c'],
+      'condition': weather['condition']['text'],
+      'windSpeed': weather['wind_kph'],
+      'airHumidity': weather['humidity'],
+      'isDay': weather['is_day'] == 1,
+      'location': {
+        'name': location['name'],
+        'latitude': location['lat'],
+        'longitude': location['lon'],
+      }
+    };
   }
 }
