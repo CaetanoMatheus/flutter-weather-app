@@ -15,6 +15,7 @@ dependencies:
   get_it: ^6.0.0
   http: ^0.13.0
   json_annotation: ^4.0.0
+  vrouter: ^1.0.0-nullsafety.11
 
 dev_dependencies:
   flutter_test:
