@@ -38,6 +38,6 @@ class WeatherEntity {
   set isDay(bool isDay) => this._isDay = isDay;
   set location(LocationEntity location) {
     this._location = location;
-    if (this._location.wheater != this) this._location.wheater = this;
+    if (this._location.weather != this) this._location.weather = this;
   }
 }
