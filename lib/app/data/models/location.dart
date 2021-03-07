@@ -2,7 +2,7 @@ import 'package:flutter_weather_app/app/data/models/weather.dart';
 import 'package:flutter_weather_app/app/domain/entities/location_entity.dart';
 import 'package:json_annotation/json_annotation.dart';
 
-part 'auto_genereted/location.g.dart';
+part 'location.g.dart';
 
 @JsonSerializable()
 class Location extends LocationEntity {
