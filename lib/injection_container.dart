@@ -1,6 +1,7 @@
-import 'package:flutter_weather_app/app/presentation/bloc/home_page/home_page_bloc.dart';
 import 'package:get_it/get_it.dart';
 
+import 'package:flutter_weather_app/app/presentation/bloc/app_theme/app_theme_bloc.dart';
+import 'package:flutter_weather_app/app/presentation/bloc/home_page/home_page_bloc.dart';
 import 'package:flutter_weather_app/app/data/data_sources/contracts/i_weather_data_source.dart';
 import 'package:flutter_weather_app/app/data/data_sources/weather_data_source.dart';
 import 'package:flutter_weather_app/app/data/repositories/weather_repository.dart';
@@ -16,15 +17,20 @@ get<T extends Object>() => _getIt<T>();
 
 Future<void> initDepencies() async {
   //! External - Apis
-  _getIt.registerFactory<IApi>(() => Api());
-  _getIt.registerFactory<IWeatherApi>(() => WeatherApi(_getIt()));
+  _getIt.registerLazySingleton<IApi>(() => Api());
+  _getIt.registerLazySingleton<IWeatherApi>(() => WeatherApi(_getIt()));
 
   //! Data - Data Sources
-  _getIt.registerFactory<IWeatherDataSource>(() => WeatherDataSource(_getIt()));
+  _getIt.registerLazySingleton<IWeatherDataSource>(
+    () => WeatherDataSource(_getIt()),
+  );
 
   //! Data - Repositories
-  _getIt.registerFactory<IWeatherRepository>(() => WeatherRepository(_getIt()));
+  _getIt.registerLazySingleton<IWeatherRepository>(
+    () => WeatherRepository(_getIt()),
+  );
 
   //! Presentation - Controllers
-  _getIt.registerFactory<HomePageBloc>(() => HomePageBloc(_getIt()));
+  _getIt.registerSingleton<AppThemeBloc>(AppThemeBloc());
+  _getIt.registerFactory<HomePageBloc>(() => HomePageBloc(_getIt(), _getIt()));
 }

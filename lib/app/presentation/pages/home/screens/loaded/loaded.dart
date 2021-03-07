@@ -1,26 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_weather_app/app/presentation/bloc/home_page/home_page_bloc.dart';
+import 'package:flutter_weather_app/app/presentation/pages/home/screens/loaded/styles.dart';
+import 'package:flutter_weather_app/app/presentation/widgets/card/image_bottom_text_card/image_bottom_text_card.dart';
+import 'package:flutter_weather_app/app/presentation/widgets/text/icon_text/icon_text.dart';
 import 'package:flutter_weather_app/utils/image_resolver.dart';
 
-class HomeLoadedScreen extends StatelessWidget {
+class HomeLoadedScreen extends StatelessWidget with HomeLoadedScreenStyles {
   final HomePageLoaded state;
 
   HomeLoadedScreen({Key? key, required this.state}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    double screenHeight = MediaQuery.of(context).size.height;
-
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(backgroundColor: Colors.transparent, elevation: 0),
       body: Center(
         child: ListView(
           physics: BouncingScrollPhysics(),
           children: [
-            Container(
-              height: screenHeight * .2,
-              margin: EdgeInsets.symmetric(vertical: 20),
-              child: Image.asset(
+            ImageBottomTextCard(
+              state.weather.condition,
+              margin: EdgeInsets.only(bottom: 20),
+              image: Image.asset(
                 state.weather.image ?? ImageResolver.dayCloudy,
               ),
             ),
@@ -28,43 +29,21 @@ class HomeLoadedScreen extends StatelessWidget {
               margin: EdgeInsets.only(bottom: 20),
               alignment: Alignment.center,
               child: Text(
-                state.weather.condition,
-                style: TextStyle(fontSize: 17),
-              ),
-            ),
-            Container(
-              margin: EdgeInsets.only(bottom: 20),
-              alignment: Alignment.center,
-              child: Text(
                 '${state.weather.temperature.round()} °',
-                style: TextStyle(
-                  fontSize: 74,
-                ),
+                style: TextStyle(fontSize: 74),
               ),
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Container(
-                  child: Row(
-                    children: [
-                      Image.asset(ImageResolver.wind, height: 28),
-                      SizedBox(width: 5),
-                      Text('${state.weather.windSpeed} km/h'),
-                    ],
-                  ),
+                IconText(
+                  '${state.weather.windSpeed} km/h',
+                  icon: Image.asset(ImageResolver.wind),
                 ),
                 SizedBox(width: 20),
-                Container(
-                  child: Row(
-                    children: [
-                      Image.asset(
-                        ImageResolver.airHumidity,
-                        height: 28,
-                      ),
-                      Text('${state.weather.airHumidity} %'),
-                    ],
-                  ),
+                IconText(
+                  '${state.weather.airHumidity} %',
+                  icon: Image.asset(ImageResolver.airHumidity),
                 ),
               ],
             ),

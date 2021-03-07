@@ -1,11 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_weather_app/consts/app_theme.dart';
+import 'package:flutter_weather_app/app/presentation/theme/app_theme.dart';
 
 mixin HomeLoadingScreenStyles {
-  BoxDecoration screenBackground() {
-    return BoxDecoration(gradient: AppTheme.gradient);
-  }
-
   BoxDecoration containersDecoration() {
     return BoxDecoration(
       color: AppTheme.shimmer,

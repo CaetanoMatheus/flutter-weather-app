@@ -1,5 +1,6 @@
-import 'package:flutter_weather_app/external/apis/contracts/i_api.dart';
 import 'package:http/http.dart' as http;
+
+import 'package:flutter_weather_app/external/apis/contracts/i_api.dart';
 
 class Api implements IApi {
   final Map<String, String> _headers = {

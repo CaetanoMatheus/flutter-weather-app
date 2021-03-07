@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_weather_app/app/data/models/location.dart';
 import 'package:flutter_weather_app/app/domain/entities/weather_entity.dart';
 import 'package:json_annotation/json_annotation.dart';
