@@ -8,8 +8,8 @@ class WeatherEntity {
   late int _airHumidity;
   late bool _isDay;
   late String? _image;
-  late LocationEntity _location;
-  late List<ForecastWeatherEntity> _forecasts;
+  late LocationEntity? _location;
+  late List<ForecastWeatherEntity>? _forecasts;
 
   WeatherEntity(
     double temperature,
@@ -17,8 +17,8 @@ class WeatherEntity {
     double windSpeed,
     int airHumidity,
     String? image,
-    LocationEntity location, [
-    List<ForecastWeatherEntity> forecasts = const [],
+    List<ForecastWeatherEntity>? forecasts,
+    LocationEntity? location, [
     bool isDay = true,
   ]) {
     this.temperature = temperature;
@@ -32,8 +32,9 @@ class WeatherEntity {
   }
 
   void addForecast(ForecastWeatherEntity forecast) {
-    if (!this._forecasts.contains(forecast))
-      this.forecasts = [forecast]..addAll(this._forecasts);
+    final data = this._forecasts ?? [];
+    if (!data.contains(forecast))
+      this.forecasts = [forecast]..addAll(data);
     else
       this._forecasts = [forecast];
   }
@@ -44,8 +45,8 @@ class WeatherEntity {
   int get airHumidity => this._airHumidity;
   String? get image => this._image;
   bool get isDay => this._isDay;
-  LocationEntity get location => this._location;
-  List<ForecastWeatherEntity> get forecasts => this._forecasts;
+  LocationEntity? get location => this._location;
+  List<ForecastWeatherEntity>? get forecasts => this._forecasts;
 
   set temperature(double temperature) => this._temperature = temperature;
   set condition(String condition) => this._condition = condition;
@@ -53,15 +54,15 @@ class WeatherEntity {
   set airHumidity(int airHumidity) => this._airHumidity = airHumidity;
   set image(String? image) => this._image = image;
   set isDay(bool isDay) => this._isDay = isDay;
-  set forecasts(List<ForecastWeatherEntity> forecasts) {
+  set forecasts(List<ForecastWeatherEntity>? forecasts) {
     this._forecasts = forecasts;
-    this._forecasts.forEach((ForecastWeatherEntity forecast) {
+    this._forecasts?.forEach((ForecastWeatherEntity forecast) {
       if (forecast.weather != this) forecast.weather = this;
     });
   }
 
-  set location(LocationEntity location) {
+  set location(LocationEntity? location) {
     this._location = location;
-    if (this._location.weather != this) this._location.weather = this;
+    if (this._location?.weather != this) this._location?.weather = this;
   }
 }

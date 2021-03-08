@@ -1,10 +1,6 @@
 import 'package:flutter_weather_app/app/data/models/weather.dart';
 import 'package:flutter_weather_app/app/domain/entities/location_entity.dart';
-import 'package:json_annotation/json_annotation.dart';
 
-part 'location.g.dart';
-
-@JsonSerializable()
 class Location extends LocationEntity {
   Location(
     String name,
@@ -14,10 +10,20 @@ class Location extends LocationEntity {
   ]) : super(name, latitude, longitude, weather);
 
   factory Location.fromJson(Map<String, dynamic> json) {
-    return _$LocationFromJson(json);
+    return Location(
+      json['name'] as String,
+      (json['latitude'] as num).toDouble(),
+      (json['longitude'] as num).toDouble(),
+    );
   }
 
-  Map<String, dynamic> toJson() => _$LocationToJson(this);
+  Map<String, dynamic> toJson() {
+    return {
+      'name': this.name,
+      'latitude': this.latitude,
+      'longitude': this.longitude,
+    };
+  }
 
   @override
   Weather? get weather {

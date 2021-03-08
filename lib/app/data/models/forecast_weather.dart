@@ -1,24 +1,32 @@
 import 'package:flutter_weather_app/app/data/models/weather.dart';
 import 'package:flutter_weather_app/app/domain/entities/forecast_weather_entity.dart';
-import 'package:json_annotation/json_annotation.dart';
 
-part 'forecast_weather.g.dart';
-
-@JsonSerializable()
 class ForecastWeather extends ForecastWeatherEntity {
   ForecastWeather(
     double temperature,
     DateTime time,
-    Weather weather, [
+    Weather? weather, [
     bool isDay = true,
   ]) : super(temperature, time, weather, isDay);
 
   factory ForecastWeather.fromJson(Map<String, dynamic> json) {
-    return _$ForecastWeatherFromJson(json);
+    return ForecastWeather(
+      (json['temperature'] as num).toDouble(),
+      DateTime.parse(json['time'] as String),
+      null,
+      json['isDay'] as bool,
+    );
   }
+
+  Map<String, dynamic> _$ForecastWeatherToJson(ForecastWeather instance) =>
+      <String, dynamic>{
+        'temperature': instance.temperature,
+        'time': instance.time.toIso8601String(),
+        'isDay': instance.isDay,
+      };
 
   Map<String, dynamic> toJson() => _$ForecastWeatherToJson(this);
 
   @override
-  Weather get weather => (super.weather as Weather);
+  Weather? get weather => (super.weather as Weather);
 }

@@ -1,11 +1,7 @@
 import 'package:flutter_weather_app/app/data/models/forecast_weather.dart';
 import 'package:flutter_weather_app/app/data/models/location.dart';
 import 'package:flutter_weather_app/app/domain/entities/weather_entity.dart';
-import 'package:json_annotation/json_annotation.dart';
 
-part 'weather.g.dart';
-
-@JsonSerializable()
 class Weather extends WeatherEntity {
   Weather(
     double temperature,
@@ -13,8 +9,8 @@ class Weather extends WeatherEntity {
     double windSpeed,
     int airHumidity,
     String? image,
-    Location location, [
-    List<ForecastWeather> forecasts = const [],
+    List<ForecastWeather>? forecasts,
+    Location? location, [
     bool isDay = true,
   ]) : super(
           temperature,
@@ -22,22 +18,40 @@ class Weather extends WeatherEntity {
           windSpeed,
           airHumidity,
           image,
-          location,
           forecasts,
+          location,
           isDay,
         );
 
   factory Weather.fromJson(Map<String, dynamic> json) {
-    return _$WeatherFromJson(json);
+    return Weather(
+      (json['temperature'] as num).toDouble(),
+      json['condition'] as String,
+      (json['windSpeed'] as num).toDouble(),
+      json['airHumidity'] as int,
+      json['image'] as String?,
+      null,
+      null,
+      json['isDay'] as bool,
+    );
   }
 
-  Map<String, dynamic> toJson() => _$WeatherToJson(this);
+  Map<String, dynamic> toJson() {
+    return {
+      'temperature': this.temperature,
+      'condition': this.condition,
+      'windSpeed': this.windSpeed,
+      'airHumidity': this.airHumidity,
+      'image': this.image,
+      'isDay': this.isDay,
+    };
+  }
 
   @override
-  Location get location => (super.location as Location);
+  Location? get location => (super.location as Location);
 
   @override
-  List<ForecastWeather> get forecasts {
-    return (super.location as List<ForecastWeather>);
+  List<ForecastWeather>? get forecasts {
+    return (super.forecasts as List<ForecastWeather>);
   }
 }
