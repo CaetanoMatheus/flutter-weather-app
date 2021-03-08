@@ -52,6 +52,6 @@ class Weather extends WeatherEntity {
 
   @override
   List<ForecastWeather>? get forecasts {
-    return (super.forecasts as List<ForecastWeather>);
+    return super.forecasts?.map((e) => e as ForecastWeather).toList();
   }
 }
