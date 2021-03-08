@@ -1,3 +1,4 @@
+import 'package:flutter_weather_app/app/data/models/forecast_weather.dart';
 import 'package:flutter_weather_app/app/data/models/location.dart';
 import 'package:flutter_weather_app/app/domain/entities/weather_entity.dart';
 import 'package:json_annotation/json_annotation.dart';
@@ -13,6 +14,7 @@ class Weather extends WeatherEntity {
     int airHumidity,
     String? image,
     Location location, [
+    List<ForecastWeather> forecasts = const [],
     bool isDay = true,
   ]) : super(
           temperature,
@@ -21,6 +23,7 @@ class Weather extends WeatherEntity {
           airHumidity,
           image,
           location,
+          forecasts,
           isDay,
         );
 
@@ -32,4 +35,9 @@ class Weather extends WeatherEntity {
 
   @override
   Location get location => (super.location as Location);
+
+  @override
+  List<ForecastWeather> get forecasts {
+    return (super.location as List<ForecastWeather>);
+  }
 }
