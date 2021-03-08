@@ -8,6 +8,9 @@ class IconText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(children: [Container(height: 28, child: icon), Text(text)]);
+    return Row(children: [
+      Container(height: 28, child: icon),
+      Text(text, style: TextStyle()),
+    ]);
   }
 }

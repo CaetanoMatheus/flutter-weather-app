@@ -30,7 +30,7 @@ class HomeLoadedScreen extends StatelessWidget with HomeLoadedScreenStyles {
               alignment: Alignment.center,
               child: Text(
                 '${state.weather.temperature.round()} °',
-                style: TextStyle(fontSize: 74),
+                style: temperatureStyle(context),
               ),
             ),
             Row(

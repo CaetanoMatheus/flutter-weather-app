@@ -18,8 +18,9 @@ class AppTheme {
       brightness: Brightness.light,
       primaryColor: Color(0xFF5AC8FA),
       scaffoldBackgroundColor: Colors.transparent,
-      textTheme: TextTheme(bodyText2: TextStyle()).apply(
-        bodyColor: Color(0xFF002130),
+      textTheme: TextTheme(
+        bodyText1: TextStyle(color: Color(0xFF002148)),
+        bodyText2: TextStyle(color: Color(0xFF22436A)),
       ),
     );
   }
