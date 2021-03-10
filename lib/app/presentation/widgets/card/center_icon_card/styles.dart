@@ -23,7 +23,7 @@ mixin CenterIconCardStyles {
     return TextStyle(
       color: Theme.of(context).textTheme.bodyText1?.color,
       fontSize: 28,
-      fontWeight: FontWeight.w500,
+      fontWeight: FontWeight.bold,
     );
   }
 }

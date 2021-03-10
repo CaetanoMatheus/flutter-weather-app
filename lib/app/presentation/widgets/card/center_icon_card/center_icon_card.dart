@@ -30,7 +30,7 @@ class CenterIconCard extends StatelessWidget with CenterIconCardStyles {
         decoration: containerDecoration(context),
         child: Column(
           children: [
-            Text(text),
+            Text(text, style: TextStyle(color: Colors.black54)),
             Expanded(child: middle ?? Container()),
             Text(subText ?? '', style: subTextStyle(context)),
           ],

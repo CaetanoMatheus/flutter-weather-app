@@ -74,7 +74,7 @@ class HomeLoadedScreen extends StatelessWidget {
         child: CenterIconCard(
           DateResolver.parseHour(state.forecasts[index].time),
           margin: EdgeInsets.only(left: 15),
-          subText: state.forecasts[index].temperature.toString(),
+          subText: '${state.forecasts[index].temperature.round().toString()}°',
           middle: state.forecasts[index].image == null
               ? null
               : Image.network('http:${state.forecasts[index].image}'),
@@ -93,7 +93,7 @@ class HomeLoadedScreen extends StatelessWidget {
         margin: EdgeInsets.symmetric(horizontal: 20),
         child: AppDateDisplay(
           date: state.forecastDates[index],
-          bold: state.selectedDate == index,
+          selected: state.selectedDate == index,
           onTap: () => bloc.add(ChangeForecastDate(index)),
         ),
       ),
