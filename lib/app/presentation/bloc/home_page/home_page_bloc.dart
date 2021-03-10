@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
+import 'package:flutter/widgets.dart';
 import 'package:meta/meta.dart';
 
 import 'package:flutter_weather_app/app/data/models/forecast_weather.dart';
@@ -22,6 +23,8 @@ class HomePageBloc extends Bloc<HomePageEvent, HomePageState> {
   Stream<HomePageState> mapEventToState(HomePageEvent event) async* {
     if (event is GetWeatherByCityName)
       yield await _getWeatherByCityName(event.city);
+    if (event is GetWeatherFromInputValue)
+      _getWeatherFromInputValue(event.city);
     if (event is ChangeForecastDate)
       yield _changeForecastDate(event, (state as HomePageLoaded));
   }
@@ -31,22 +34,14 @@ class HomePageBloc extends Bloc<HomePageEvent, HomePageState> {
     if (weather == null) return HomePageError('Couldn\'t load information');
     this._appThemeBloc.add(
         ChangeTheme(weather.isDay ? AppThemeMode.Day : AppThemeMode.Night));
+
     return HomePageLoaded(
-      weather,
-      _getForecastDates(weather),
-      _getForecastByDay(
+      weather: weather,
+      forecastDates: _getForecastDates(weather),
+      forecasts: _getForecastByDay(
         weather,
         weather.forecasts?.last.time ?? DateTime.now(),
       ),
-    );
-  }
-
-  HomePageLoaded _changeForecastDate(ChangeForecastDate e, HomePageLoaded s) {
-    return HomePageLoaded(
-      s.weather,
-      s.forecastDates,
-      _getForecastByDay(s.weather, s.forecastDates[e.index]),
-      e.index,
     );
   }
 
@@ -62,6 +57,20 @@ class HomePageBloc extends Bloc<HomePageEvent, HomePageState> {
     });
 
     return forecastDates.reversed.toList();
+  }
+
+  void _getWeatherFromInputValue(String city) {
+    if (city.isEmpty) return null;
+    return this.add(GetWeatherByCityName(city));
+  }
+
+  HomePageLoaded _changeForecastDate(ChangeForecastDate e, HomePageLoaded s) {
+    return HomePageLoaded(
+      weather: s.weather,
+      forecastDates: s.forecastDates,
+      forecasts: _getForecastByDay(s.weather, s.forecastDates[e.index]),
+      selectedDate: e.index,
+    );
   }
 
   List<ForecastWeather> _getForecastByDay(Weather weather, DateTime time) {

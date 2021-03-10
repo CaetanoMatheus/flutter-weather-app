@@ -9,6 +9,12 @@ class GetWeatherByCityName extends HomePageEvent {
   GetWeatherByCityName(this.city);
 }
 
+class GetWeatherFromInputValue extends HomePageEvent {
+  final String city;
+
+  GetWeatherFromInputValue(this.city);
+}
+
 class ChangeForecastDate extends HomePageEvent {
   final int index;
 

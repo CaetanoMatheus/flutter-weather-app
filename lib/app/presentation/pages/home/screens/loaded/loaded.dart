@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'package:flutter_weather_app/app/presentation/bloc/home_page/home_page_bloc.dart';
 import 'package:flutter_weather_app/app/presentation/pages/home/widgets/app_bar/app_bar.dart';
 import 'package:flutter_weather_app/app/presentation/widgets/card/center_icon_card/center_icon_card.dart';
@@ -22,7 +23,8 @@ class HomeLoadedScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: HomeAppBar(location: state.weather.location),
+      resizeToAvoidBottomInset: false,
+      appBar: HomeAppBar(state: state, bloc: bloc),
       body: Column(
         children: [
           Expanded(
