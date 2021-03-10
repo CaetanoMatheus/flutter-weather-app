@@ -16,7 +16,7 @@ class CenterIconCard extends StatelessWidget with CenterIconCardStyles {
     this.width = 125,
     this.subText,
     this.middle,
-    this.height = 160,
+    this.height = 150,
   }) : super(key: key);
 
   @override

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_weather_app/app/presentation/bloc/home_page/home_page_bloc.dart';
+import 'package:flutter_weather_app/app/presentation/pages/home/widgets/app_bar/app_bar.dart';
 import 'package:flutter_weather_app/app/presentation/widgets/card/center_icon_card/center_icon_card.dart';
 import 'package:flutter_weather_app/app/presentation/widgets/card/image_bottom_text_card/image_bottom_text_card.dart';
 import 'package:flutter_weather_app/app/presentation/widgets/card/temperature_display/temperature_display.dart';
@@ -21,7 +22,7 @@ class HomeLoadedScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(backgroundColor: Colors.transparent, elevation: 0),
+      appBar: HomeAppBar(location: state.weather.location),
       body: Column(
         children: [
           Expanded(
@@ -30,7 +31,7 @@ class HomeLoadedScreen extends StatelessWidget {
               children: [
                 ImageBottomTextCard(
                   state.weather.condition,
-                  margin: EdgeInsets.only(bottom: 20),
+                  margin: EdgeInsets.symmetric(vertical: 20),
                   image: Image.asset(
                     state.weather.image ?? ImageResolver.dayCloudy,
                   ),
