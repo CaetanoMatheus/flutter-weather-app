@@ -16,11 +16,11 @@ class HomePage extends StatelessWidget with HomePageStyles {
     return Container(
       decoration: screenBackground(context),
       child: BlocBuilder(
-        bloc: (bloc as HomePageBloc)..add(GetWeatherByCityName('goiania')),
+        bloc: (bloc as HomePageBloc)..add(GetWeatherByCityName('seoul')),
         builder: (_, state) {
           if (state is HomePageError) return HomeErrorScreen();
           return state is HomePageLoaded
-              ? HomeLoadedScreen(state: state)
+              ? HomeLoadedScreen(state: state, bloc: bloc)
               : HomeLoadingScreen();
         },
       ),

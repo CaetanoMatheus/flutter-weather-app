@@ -56,7 +56,6 @@ class WeatherDataSource implements IWeatherDataSource {
   ) {
     for (final item in map?['forecast']?['forecastday']) {
       for (var mappedForcast in item['hour']) {
-        print(mappedForcast['condition']['icon']);
         final forecast = ForecastWeather.fromJson({
           'temperature': mappedForcast['temp_c'],
           'time': mappedForcast['time'],

@@ -9,10 +9,16 @@ class HomePageLoading extends HomePageState {}
 
 class HomePageLoaded extends HomePageState {
   final Weather weather;
+  final int selectedDate;
   final List<DateTime> forecastDates;
   final List<ForecastWeather> forecasts;
 
-  HomePageLoaded(this.weather, this.forecastDates, this.forecasts);
+  HomePageLoaded(
+    this.weather,
+    this.forecastDates,
+    this.forecasts, [
+    this.selectedDate = 0,
+  ]);
 }
 
 class HomePageError extends HomePageState {

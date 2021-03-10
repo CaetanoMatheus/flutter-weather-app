@@ -10,8 +10,13 @@ import 'package:flutter_weather_app/utils/image_resolver.dart';
 
 class HomeLoadedScreen extends StatelessWidget {
   final HomePageLoaded state;
+  final HomePageBloc bloc;
 
-  HomeLoadedScreen({Key? key, required this.state}) : super(key: key);
+  HomeLoadedScreen({
+    Key? key,
+    required this.state,
+    required this.bloc,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -68,11 +73,11 @@ class HomeLoadedScreen extends StatelessWidget {
         alignment: Alignment.topCenter,
         child: CenterIconCard(
           DateResolver.parseHour(state.forecasts[index].time),
+          margin: EdgeInsets.only(left: 15),
           subText: state.forecasts[index].temperature.toString(),
           middle: state.forecasts[index].image == null
               ? null
               : Image.network('http:${state.forecasts[index].image}'),
-          margin: EdgeInsets.only(left: 15),
         ),
       ),
     );
@@ -86,7 +91,11 @@ class HomeLoadedScreen extends StatelessWidget {
       itemBuilder: (_, index) => Container(
         width: 100,
         margin: EdgeInsets.symmetric(horizontal: 20),
-        child: AppDateDisplay(date: state.forecastDates[index]),
+        child: AppDateDisplay(
+          date: state.forecastDates[index],
+          bold: state.selectedDate == index,
+          onTap: () => bloc.add(ChangeForecastDate(index)),
+        ),
       ),
     );
   }

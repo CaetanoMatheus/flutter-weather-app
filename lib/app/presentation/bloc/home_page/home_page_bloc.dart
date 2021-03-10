@@ -1,9 +1,9 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
-import 'package:flutter_weather_app/app/data/models/forecast_weather.dart';
 import 'package:meta/meta.dart';
 
+import 'package:flutter_weather_app/app/data/models/forecast_weather.dart';
 import 'package:flutter_weather_app/app/data/models/weather.dart';
 import 'package:flutter_weather_app/app/domain/repositories/i_weather_repository.dart';
 import 'package:flutter_weather_app/app/presentation/bloc/app_theme/app_theme_bloc.dart';
@@ -19,25 +19,34 @@ class HomePageBloc extends Bloc<HomePageEvent, HomePageState> {
   HomePageBloc(this._repository, this._appThemeBloc) : super(HomePageInitial());
 
   @override
-  Stream<HomePageState> mapEventToState(
-    HomePageEvent event,
-  ) async* {
-    if (event is GetWeatherByCityName) yield await _getWeatherByCityName(event);
+  Stream<HomePageState> mapEventToState(HomePageEvent event) async* {
+    if (event is GetWeatherByCityName)
+      yield await _getWeatherByCityName(event.city);
+    if (event is ChangeForecastDate)
+      yield _changeForecastDate(event, (state as HomePageLoaded));
   }
 
-  Future<HomePageState> _getWeatherByCityName(
-    GetWeatherByCityName event,
-  ) async {
-    final weather = await this._repository.getWeatherByCityName(event.city);
-    if (weather == null)
-      return HomePageError('Couldn\'t load weather information');
+  Future<HomePageState> _getWeatherByCityName(String city) async {
+    final weather = await this._repository.getWeatherByCityName(city);
+    if (weather == null) return HomePageError('Couldn\'t load information');
     this._appThemeBloc.add(
-          ChangeTheme(weather.isDay ? AppThemeMode.Day : AppThemeMode.Night),
-        );
+        ChangeTheme(weather.isDay ? AppThemeMode.Day : AppThemeMode.Night));
     return HomePageLoaded(
       weather,
       _getForecastDates(weather),
-      _getForecastByDay(weather, weather.forecasts?[0].time ?? DateTime.now()),
+      _getForecastByDay(
+        weather,
+        weather.forecasts?.last.time ?? DateTime.now(),
+      ),
+    );
+  }
+
+  HomePageLoaded _changeForecastDate(ChangeForecastDate e, HomePageLoaded s) {
+    return HomePageLoaded(
+      s.weather,
+      s.forecastDates,
+      _getForecastByDay(s.weather, s.forecastDates[e.index]),
+      e.index,
     );
   }
 
