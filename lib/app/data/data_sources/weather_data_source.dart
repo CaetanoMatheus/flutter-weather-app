@@ -12,7 +12,7 @@ class WeatherDataSource implements IWeatherDataSource {
 
   @override
   Future<Weather?> getWeatherByCityName(String city) async {
-    final data = await this._api.getWeather({'q': city});
+    final data = await this._api.getWeather({'q': city, 'days': '3'});
     final weatherData = _handleWeatherFields(data);
     if (weatherData == null) return null;
     final weather = Weather.fromJson(weatherData);
@@ -56,9 +56,11 @@ class WeatherDataSource implements IWeatherDataSource {
   ) {
     for (final item in map?['forecast']?['forecastday']) {
       for (var mappedForcast in item['hour']) {
+        print(mappedForcast['condition']['icon']);
         final forecast = ForecastWeather.fromJson({
           'temperature': mappedForcast['temp_c'],
           'time': mappedForcast['time'],
+          'image': mappedForcast['condition']['icon'],
           'isDay': mappedForcast['is_day'] == 1,
         });
 

@@ -34,4 +34,8 @@ abstract class DateResolver {
 
     return '$day, ${date?.day} $month';
   }
+
+  static String parseHour(DateTime? date) {
+    return DateFormat('hh:mm a').format(DateTime.now());
+  }
 }

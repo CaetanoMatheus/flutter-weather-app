@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_weather_app/app/presentation/bloc/home_page/home_page_bloc.dart';
-import 'package:flutter_weather_app/app/presentation/pages/home/screens/loaded/styles.dart';
 import 'package:flutter_weather_app/app/presentation/widgets/card/center_icon_card/center_icon_card.dart';
 import 'package:flutter_weather_app/app/presentation/widgets/card/image_bottom_text_card/image_bottom_text_card.dart';
+import 'package:flutter_weather_app/app/presentation/widgets/card/temperature_display/temperature_display.dart';
 import 'package:flutter_weather_app/app/presentation/widgets/text/app_date_display/app_date_display.dart';
 import 'package:flutter_weather_app/app/presentation/widgets/text/icon_text/icon_text.dart';
+import 'package:flutter_weather_app/utils/date_resolver.dart';
 import 'package:flutter_weather_app/utils/image_resolver.dart';
 
-class HomeLoadedScreen extends StatelessWidget with HomeLoadedScreenStyles {
+class HomeLoadedScreen extends StatelessWidget {
   final HomePageLoaded state;
 
   HomeLoadedScreen({Key? key, required this.state}) : super(key: key);
@@ -29,14 +30,7 @@ class HomeLoadedScreen extends StatelessWidget with HomeLoadedScreenStyles {
                     state.weather.image ?? ImageResolver.dayCloudy,
                   ),
                 ),
-                Container(
-                  margin: EdgeInsets.only(bottom: 20),
-                  alignment: Alignment.center,
-                  child: Text(
-                    '${state.weather.temperature.round()} °',
-                    style: temperatureStyle(context),
-                  ),
-                ),
+                TemperatureDisplay('${state.weather.temperature.round()}'),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -69,13 +63,15 @@ class HomeLoadedScreen extends StatelessWidget with HomeLoadedScreenStyles {
     return ListView.builder(
       scrollDirection: Axis.horizontal,
       physics: BouncingScrollPhysics(),
-      itemCount: 3,
+      itemCount: state.forecasts.length,
       itemBuilder: (_, index) => Align(
         alignment: Alignment.topCenter,
         child: CenterIconCard(
-          '09:00 AM',
-          subText: '30 °',
-          icon: Icons.add,
+          DateResolver.parseHour(state.forecasts[index].time),
+          subText: state.forecasts[index].temperature.toString(),
+          middle: state.forecasts[index].image == null
+              ? null
+              : Image.network('http:${state.forecasts[index].image}'),
           margin: EdgeInsets.only(left: 15),
         ),
       ),
@@ -86,11 +82,11 @@ class HomeLoadedScreen extends StatelessWidget with HomeLoadedScreenStyles {
     return ListView.builder(
       scrollDirection: Axis.horizontal,
       physics: BouncingScrollPhysics(),
-      itemCount: 3,
+      itemCount: state.forecastDates.length,
       itemBuilder: (_, index) => Container(
         width: 100,
         margin: EdgeInsets.symmetric(horizontal: 20),
-        child: AppDataDisplay(date: state.weather.forecasts?[index].time),
+        child: AppDateDisplay(date: state.forecastDates[index]),
       ),
     );
   }

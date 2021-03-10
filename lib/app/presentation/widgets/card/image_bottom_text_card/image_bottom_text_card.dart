@@ -21,7 +21,36 @@ class ImageBottomTextCard extends StatelessWidget {
       margin: margin,
       child: Column(
         children: [
-          Expanded(child: image),
+          Stack(
+            alignment: Alignment.center,
+            children: [
+              Container(
+                margin: EdgeInsets.only(top: height * .1),
+                height: height * .7,
+                width: height + (height * .2),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.circular(200)),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(.1),
+                      blurRadius: height * .2,
+                    ),
+                    BoxShadow(
+                      color: Colors.white.withOpacity(.1),
+                      blurRadius: height * .2,
+                      offset: Offset(5, 5),
+                    ),
+                    BoxShadow(
+                      color: Colors.black.withOpacity(.1),
+                      blurRadius: height * .2,
+                      offset: Offset(-5, -5),
+                    ),
+                  ],
+                ),
+              ),
+              Container(height: height * .92, child: image),
+            ],
+          ),
           Container(
             alignment: Alignment.center,
             child: Text(text, style: TextStyle(fontSize: 17)),

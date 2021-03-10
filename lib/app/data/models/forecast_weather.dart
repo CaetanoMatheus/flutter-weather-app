@@ -5,14 +5,16 @@ class ForecastWeather extends ForecastWeatherEntity {
   ForecastWeather(
     double temperature,
     DateTime time,
+    String? image,
     Weather? weather, [
     bool isDay = true,
-  ]) : super(temperature, time, weather, isDay);
+  ]) : super(temperature, time, image, weather, isDay);
 
   factory ForecastWeather.fromJson(Map<String, dynamic> json) {
     return ForecastWeather(
       (json['temperature'] as num).toDouble(),
       DateTime.parse(json['time'] as String),
+      json['image'],
       null,
       json['isDay'] as bool,
     );
@@ -22,6 +24,7 @@ class ForecastWeather extends ForecastWeatherEntity {
       <String, dynamic>{
         'temperature': instance.temperature,
         'time': instance.time.toIso8601String(),
+        'image': instance.image,
         'isDay': instance.isDay,
       };
 

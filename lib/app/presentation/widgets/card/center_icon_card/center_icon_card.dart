@@ -4,7 +4,7 @@ import 'package:flutter_weather_app/app/presentation/widgets/card/center_icon_ca
 class CenterIconCard extends StatelessWidget with CenterIconCardStyles {
   final String text;
   final String? subText;
-  final IconData icon;
+  final Widget? middle;
   final EdgeInsets? margin;
   final double? width;
   final double? height;
@@ -15,7 +15,7 @@ class CenterIconCard extends StatelessWidget with CenterIconCardStyles {
     this.margin,
     this.width = 125,
     this.subText,
-    required this.icon,
+    this.middle,
     this.height = 160,
   }) : super(key: key);
 
@@ -31,7 +31,7 @@ class CenterIconCard extends StatelessWidget with CenterIconCardStyles {
         child: Column(
           children: [
             Text(text),
-            Expanded(child: Icon(icon, color: Colors.white, size: 48)),
+            Expanded(child: middle ?? Container()),
             Text(subText ?? '', style: subTextStyle(context)),
           ],
         ),
